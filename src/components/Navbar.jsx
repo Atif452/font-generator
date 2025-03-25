@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Modal, Box, Link, Avatar } from '@mui/material';
-import myImage from "../assets/my.jpg"
+import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, IconButton, ToggleButton, Icon } from '@mui/material';
+import DeveloperInfo from './DeveloperInfo'; // Import the DeveloperInfo component
+import NewUpdates from './NewUpdates'; // Import the NewUpdates component
+import ReorderIcon from '@mui/icons-material/Reorder';
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // For Developer Info modal
+  const [anchorEl, setAnchorEl] = useState(null); // For Menu anchor position
+  const [updateModalOpen, setUpdateModalOpen] = useState(false); // For New Updates modal
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget); // Set the anchor position to the clicked button
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu when clicked outside
+  };
+
+  const handleDeveloperInfoClick = () => {
+    setOpen(true); // Open the developer info modal
+    handleClose(); // Close the menu
+  };
+
+  const handleNewUpdatesClick = () => {
+    setUpdateModalOpen(true); // Open the new updates modal
+    handleClose(); // Close the menu
+  };
 
   return (
     <>
@@ -26,76 +45,60 @@ const Navbar = () => {
             CLIPPER Fonts
           </Typography>
 
-          {/* Developer Details Button */}
-          <Button
-            color="inherit"
-            sx={{
-              fontFamily: 'Roboto, sans-serif',
-              fontWeight: '500',
-              textTransform: 'none',
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              },
-            }}
-            onClick={handleOpen}
-          >
-            Developer Info
-          </Button>
+          {/* Toggle Button */}
+          <IconButton color="inherit" onClick={handleOpen}>
+            <ReorderIcon/>
+          </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Developer Details Modal */}
-      <Modal
-        open={open}
+      {/* Menu for showing buttons */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
         onClose={handleClose}
-        aria-labelledby="developer-details-modal"
-        aria-describedby="developer-details-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
+        PaperProps={{
+          sx: {
+            backgroundColor: '#333', // Dark background for the dropdown menu
             borderRadius: '10px',
-            textAlign: 'center',
+            marginTop: '10px',
+            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)', // Adding shadow for depth
+          },
+        }}
+      >
+        <MenuItem
+          onClick={handleNewUpdatesClick}
+          sx={{
+            fontFamily: 'Roboto, sans-serif',
+            fontWeight: 500,
+            color: '#fff', // White text color
+            '&:hover': {
+              backgroundColor: '#FF8E53', // Hover effect with a bright color
+            },
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Developer Details
-          </Typography>
+          New Updates
+        </MenuItem>
+        <MenuItem
+          onClick={handleDeveloperInfoClick}
+          sx={{
+            fontFamily: 'Roboto, sans-serif',
+            fontWeight: 500,
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: '#FF8E53',
+            },
+          }}
+        >
+          Developer Info
+        </MenuItem>
+      </Menu>
 
-          <Avatar
-            alt="Developer"
-            src={myImage}
-            sx={{
-              width: 100,
-              height: 100,
-              margin: '0 auto 20px',
-              border: '3px solid #FF8E53',
-            }}
-          />
-          
-          <Typography variant="h5" sx={{ mb: 2 }}>
-            <strong>Atif</strong>
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Contact: <Link href="mailto:uatif453@gmail.com">uatif453@gmail.com</Link>
-          </Typography>
-          
-          <Button
-            variant="contained"
-            sx={{ mt: 3 }}
-            onClick={handleClose}
-          >
-            Close
-          </Button>
-        </Box>
-      </Modal>
+      {/* Developer Info Modal */}
+      <DeveloperInfo open={open} handleClose={() => setOpen(false)} />
+
+      {/* New Updates Modal */}
+      <NewUpdates open={updateModalOpen} handleClose={() => setUpdateModalOpen(false)} />
     </>
   );
 };
