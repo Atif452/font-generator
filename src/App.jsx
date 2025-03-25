@@ -12,7 +12,8 @@ import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { unicodeStyles } from "./unicode/unicode"; // Ensure this file has your Unicode mappings
-
+import LogRocket from 'logrocket';
+LogRocket.init('k04irg/font-generator');
 function App() {
   const [text, setText] = useState("");
   const defaultText = "Your Name";
