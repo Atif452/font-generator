@@ -24,15 +24,23 @@ const NewUpdates = ({ open, handleClose }) => {
         }}
       >
         <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-          New Updates
+          What’s New
         </Typography>
 
         <Typography variant="body1" sx={{ mb: 2 }}>
-          <strong>New Fonts Added:</strong> We have added several new stylish fonts to enhance your experience!
+          ✅ <strong>New Fonts Added:</strong> We've introduced a fresh set of stylish Unicode fonts to give users even more ways to express their text uniquely.
         </Typography>
 
         <Typography variant="body1" sx={{ mb: 2 }}>
-          <strong>Bug Fixes:</strong> We've fixed some issues related to font rendering and the navbar responsiveness.
+          🧹 <strong>Cleaned Up:</strong> Removed outdated and less useful font styles for a cleaner, faster, and more focused experience.
+        </Typography>
+
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          🔥 <strong>Popular Symbols:</strong> You can now explore and copy a curated list of popular Unicode symbols like stars, arrows, music icons, and more—just one click to copy!
+        </Typography>
+
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          🚀 <strong>Enhancements:</strong> Overall performance improvements, bug fixes, and UI enhancements, especially in text rendering and responsive design.
         </Typography>
 
         <Button

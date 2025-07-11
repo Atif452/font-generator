@@ -1,38 +1,53 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, IconButton, ToggleButton, Icon } from '@mui/material';
-import DeveloperInfo from './DeveloperInfo'; // Import the DeveloperInfo component
-import NewUpdates from './NewUpdates'; // Import the NewUpdates component
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+  Badge,
+} from '@mui/material';
+import DeveloperInfo from './DeveloperInfo';
+import NewUpdates from './NewUpdates';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false); // For Developer Info modal
-  const [anchorEl, setAnchorEl] = useState(null); // For Menu anchor position
-  const [updateModalOpen, setUpdateModalOpen] = useState(false); // For New Updates modal
+  const [open, setOpen] = useState(false); // Developer Info modal
+  const [anchorEl, setAnchorEl] = useState(null); // Menu anchor
+  const [updateModalOpen, setUpdateModalOpen] = useState(false); // New Updates modal
+  const [showUpdateDot, setShowUpdateDot] = useState(true); // Show red dot
 
   const handleOpen = (event) => {
-    setAnchorEl(event.currentTarget); // Set the anchor position to the clicked button
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(null); // Close the menu when clicked outside
+    setAnchorEl(null);
   };
 
   const handleDeveloperInfoClick = () => {
-    setOpen(true); // Open the developer info modal
-    handleClose(); // Close the menu
+    setOpen(true);
+    handleClose();
   };
 
   const handleNewUpdatesClick = () => {
-    setUpdateModalOpen(true); // Open the new updates modal
-    handleClose(); // Close the menu
+    setUpdateModalOpen(true);
+    setShowUpdateDot(false); // Hide dot after user views the update
+    handleClose();
   };
 
   return (
     <>
-      {/* Navbar */}
-      <AppBar position="fixed" sx={{ backgroundColor: '#1e1e1e', boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)' }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: '#1e1e1e',
+          boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
+        }}
+      >
         <Toolbar>
-          {/* App Name */}
           <Typography
             variant="h6"
             sx={{
@@ -45,40 +60,59 @@ const Navbar = () => {
             CLIPPER Fonts
           </Typography>
 
-          {/* Toggle Button */}
+          {/* Hamburger Icon with red dot */}
           <IconButton color="inherit" onClick={handleOpen}>
-            <ReorderIcon/>
+            <Badge
+              color="error"
+              variant="dot"
+              invisible={!showUpdateDot}
+              overlap="circular"
+            >
+              <ReorderIcon />
+            </Badge>
           </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Menu for showing buttons */}
+      {/* Dropdown Menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         PaperProps={{
           sx: {
-            backgroundColor: '#333', // Dark background for the dropdown menu
+            backgroundColor: '#333',
             borderRadius: '10px',
             marginTop: '10px',
-            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)', // Adding shadow for depth
+            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
           },
         }}
       >
+        {/* New Updates MenuItem with red dot */}
         <MenuItem
           onClick={handleNewUpdatesClick}
           sx={{
             fontFamily: 'Roboto, sans-serif',
             fontWeight: 500,
-            color: '#fff', // White text color
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             '&:hover': {
-              backgroundColor: '#FF8E53', // Hover effect with a bright color
+              backgroundColor: '#FF8E53',
             },
           }}
         >
-          New Updates
+          <Badge
+            color="error"
+            variant="dot"
+            invisible={!showUpdateDot}
+            sx={{ mr: 1 }}
+          >
+            <span>New Updates</span>
+          </Badge>
         </MenuItem>
+
         <MenuItem
           onClick={handleDeveloperInfoClick}
           sx={{
@@ -94,10 +128,7 @@ const Navbar = () => {
         </MenuItem>
       </Menu>
 
-      {/* Developer Info Modal */}
       <DeveloperInfo open={open} handleClose={() => setOpen(false)} />
-
-      {/* New Updates Modal */}
       <NewUpdates open={updateModalOpen} handleClose={() => setUpdateModalOpen(false)} />
     </>
   );
